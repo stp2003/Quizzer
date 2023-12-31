@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:quizzer/helper/loader.dart';
 
 import '../services/api_services.dart';
 
@@ -227,11 +228,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                ),
-              );
+              return const Center(child: Loading(size: 150.0));
             }
           },
         ),

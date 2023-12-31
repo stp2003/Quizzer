@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:quizzer/screens/quiz_screen.dart';
 
-import '../constants/color.dart';
 import '../constants/text_style.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,55 +10,52 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: AnimatedTextKit(
+            animatedTexts: [
+              ScaleAnimatedText('Quizzer'),
+            ],
+            isRepeatingAnimation: true,
+            repeatForever: true,
+            pause: const Duration(milliseconds: 200),
+          ),
+        ),
+        body: Container(
           width: double.infinity,
           height: double.infinity,
           padding: const EdgeInsets.all(12),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [blue, darkBlue],
-            ),
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: lightgrey, width: 2),
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.xmark,
-                    color: Colors.white,
-                    size: 28,
+              Lottie.asset('assets/lottie/quiz.json'),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 30.0,
+                    ),
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText('Welcome to Quizzer 😀'),
+                        TypewriterAnimatedText(
+                          'Are you ready to test your limits.',
+                        ),
+                        TypewriterAnimatedText(
+                          'Do not panic, that part comes later.',
+                        ),
+                      ],
+                      isRepeatingAnimation: true,
+                      repeatForever: true,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 40.0),
-                child: Image.asset(
-                  'assets/balloon2.png',
-                  height: 300.0,
-                  width: 300.0,
-                ),
-              ),
-              const SizedBox(height: 20),
-              normalText(color: lightgrey, size: 18, text: "Welcome to our"),
-              headingText(color: Colors.white, size: 32, text: "Quiz App"),
-              const SizedBox(height: 20),
-              normalText(
-                color: lightgrey,
-                size: 16,
-                text:
-                    "Do you feel confident? Here you'll face our most difficult questions!",
               ),
               const Spacer(),
               Align(
@@ -78,10 +75,14 @@ class HomeScreen extends StatelessWidget {
                     width: size.width - 100,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.purple[400],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: headingText(color: blue, size: 18, text: "Continue"),
+                    child: headingText(
+                      color: Colors.white,
+                      size: 22.0,
+                      text: "Continue",
+                    ),
                   ),
                 ),
               ),

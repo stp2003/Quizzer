@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/color.dart';
 import '../constants/images.dart';
 import '../constants/text_style.dart';
 import '../services/api_services.dart';
@@ -95,7 +94,7 @@ class _QuizScreenState extends State<QuizScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [blue, darkBlue],
+            colors: [Colors.orange, Colors.greenAccent],
           ),
         ),
         child: FutureBuilder(
@@ -120,7 +119,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: lightgrey, width: 2),
+                            border: Border.all(color: Colors.yellow, width: 2),
                           ),
                           child: IconButton(
                             onPressed: () {
@@ -155,7 +154,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: lightgrey, width: 2),
+                            border: Border.all(color: Colors.yellow, width: 2),
                           ),
                           child: TextButton.icon(
                             onPressed: null,
@@ -179,7 +178,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: normalText(
-                          color: lightgrey,
+                          color: Colors.yellow,
                           size: 18,
                           text:
                               "Question ${currentQuestionIndex + 1} of ${data.length}"),
@@ -229,7 +228,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: headingText(
-                              color: blue,
+                              color: Colors.orange,
                               size: 18,
                               text: optionsList[index].toString(),
                             ),

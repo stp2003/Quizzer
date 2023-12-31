@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        useMaterial3: true,
       ),
       home: const HomeScreen(),
     );

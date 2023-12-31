@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quizzer/screens/quiz_screen.dart';
 
-import '../constants/text_style.dart';
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -53,6 +50,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                       isRepeatingAnimation: true,
                       repeatForever: true,
+                      pause: const Duration(milliseconds: 2500),
                     ),
                   ),
                 ),
@@ -78,10 +76,12 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.purple[400],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: headingText(
-                      color: Colors.white,
-                      size: 22.0,
-                      text: "Continue",
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.0,
+                      ),
                     ),
                   ),
                 ),

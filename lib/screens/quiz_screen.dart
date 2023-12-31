@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-import '../constants/images.dart';
-import '../constants/text_style.dart';
 import '../services/api_services.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+  const QuizScreen({super.key});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -83,20 +82,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
           child: Container(
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.all(12),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.orange, Colors.greenAccent],
-          ),
-        ),
         child: FutureBuilder(
           future: quiz,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -109,85 +101,74 @@ class _QuizScreenState extends State<QuizScreen> {
                 optionsList.shuffle();
                 isLoaded = true;
               }
-
               return SingleChildScrollView(
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: Colors.yellow, width: 2),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              CupertinoIcons.xmark,
-                              color: Colors.white,
-                              size: 28,
-                            ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.xmark,
+                            color: Colors.white,
+                            size: 28,
                           ),
                         ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            normalText(
-                              color: Colors.white,
-                              size: 24,
-                              text: "$seconds",
-                            ),
-                            SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: CircularProgressIndicator(
-                                value: seconds / 60,
-                                valueColor:
-                                    const AlwaysStoppedAnimation(Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Text(
+                                '$seconds',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.yellow, width: 2),
-                          ),
-                          child: TextButton.icon(
-                            onPressed: null,
-                            icon: const Icon(
-                              CupertinoIcons.heart_fill,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                            label: normalText(
-                              color: Colors.white,
-                              size: 14,
-                              text: "Like",
-                            ),
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: CircularProgressIndicator(
+                                  value: seconds / 60,
+                                  valueColor: const AlwaysStoppedAnimation(
+                                    Colors.green,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    Image.asset(ideas, width: 200),
+                    Lottie.asset(
+                      'assets/lottie/idea.json',
+                      height: 220.0,
+                      width: 220.0,
+                    ),
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: normalText(
-                          color: Colors.yellow,
-                          size: 18,
-                          text:
-                              "Question ${currentQuestionIndex + 1} of ${data.length}"),
+                      child: Text(
+                        "Question ${currentQuestionIndex + 1} of ${data.length}",
+                        style: const TextStyle(
+                          color: Colors.orangeAccent,
+                          fontSize: 19.0,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    normalText(
-                      color: Colors.white,
-                      size: 20,
-                      text: data[currentQuestionIndex]["question"],
+                    Text(
+                      data[currentQuestionIndex]["question"],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     ListView.builder(
@@ -199,24 +180,27 @@ class _QuizScreenState extends State<QuizScreen> {
 
                         return GestureDetector(
                           onTap: () {
-                            setState(() {
-                              if (answer.toString() ==
-                                  optionsList[index].toString()) {
-                                optionsColor[index] = Colors.green;
-                                points = points + 10;
-                              } else {
-                                optionsColor[index] = Colors.red;
-                              }
-
-                              if (currentQuestionIndex < data.length - 1) {
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  gotoNextQuestion();
-                                });
-                              } else {
-                                timer!.cancel();
-                                //here you can do whatever you want with the results
-                              }
-                            });
+                            setState(
+                              () {
+                                if (answer.toString() ==
+                                    optionsList[index].toString()) {
+                                  optionsColor[index] = Colors.green;
+                                  points = points + 10;
+                                } else {
+                                  optionsColor[index] = Colors.red;
+                                }
+                                if (currentQuestionIndex < data.length - 1) {
+                                  Future.delayed(
+                                    const Duration(seconds: 1),
+                                    () {
+                                      gotoNextQuestion();
+                                    },
+                                  );
+                                } else {
+                                  timer!.cancel();
+                                }
+                              },
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 20),
@@ -227,10 +211,13 @@ class _QuizScreenState extends State<QuizScreen> {
                               color: optionsColor[index],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: headingText(
-                              color: Colors.orange,
-                              size: 18,
-                              text: optionsList[index].toString(),
+                            child: Text(
+                              optionsList[index].toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         );
